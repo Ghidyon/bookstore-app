@@ -9,3 +9,7 @@ Store owner can:
 - Update Books
 - Delete Books
 - Search for books
+
+### Tech Stack
+
+**Server:** Node, Express, Mongoose, MongoDB
