@@ -13,10 +13,17 @@ TODO: Create a Schema
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 const bookSchema = new Schema({
-    title: String,
+    title: {
+        type: String,
+        required: true  
+    },
     author: String,
     description: String,
-    category: String,
+    category: {
+        type: String,
+        enum: ["fiction", "non-fiction", "motivation", "others"],
+        default: "others"
+    },
     purchaseCount: Number,
     imageUrl: String,
     tags: Array
