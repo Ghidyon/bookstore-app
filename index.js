@@ -85,7 +85,38 @@ app.post('/books', (req, res) => {
 });
 
 // GET request to /books to fetch all books
+app.get('/books', (req, res) => {
+    // fetch all books
+    Book.find({}, (err, books) => {
+        if (err) {
+            res.status(500).json({ message: err });
+        } else {
+            // Send response to client
+            res.status(200).json({
+                message: "all books fetched",
+                books
+            })
+        }
+    });
+});
+
 // GET request to /books/:id to fetch a single book
+app.get('/books/:id', (req, res) => {
+    // fetch a single book
+    Book.findOne({ _id: req.params.id }, (err, book) => {
+        if (err) {
+            return res.status(500).json({ message: err });
+        } else if (!book) {
+            return res.status(404).json({ message: "book does not exist" });
+        } else {
+            return res.status(200).json({
+                message: "book fetched",
+                book
+            });
+        }
+    });
+});
+
 // PUT request to /books/:id to update a single book
 // DELETE request to /books/:id to delete a single book
 
