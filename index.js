@@ -119,7 +119,7 @@ app.get('/books/:id', (req, res) => {
 
 // PUT request to /books/:id to update a single book
 app.put('/books/:id', (req, res) => {
-    Book.findByIdAndUpdate(req.params.id, req.body, (err, book) => {
+    Book.findByIdAndUpdate(req.params.id, req.body, {new: true}, (err, book) => {
         if (err) return res.status(500).json({ message: err });
         else if (!book) return res.status(404).json({ message: "book not found" });
         else {
@@ -137,5 +137,14 @@ app.put('/books/:id', (req, res) => {
 });
 
 // DELETE request to /books/:id to delete a single book
+app.delete('/books/:id', (req, res) => {
+    Book.findByIdAndDelete(req.params.id, (err, deletedBook) => {
+        if (err) return res.status(500).json({ message: err });
+        else return res.status(200).json({
+            message: "deleted book successfully",
+            deletedBook
+        });
+    });
+});
 
 app.listen(PORT, () => console.log(`app connected on port ${PORT}`));
