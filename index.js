@@ -51,5 +51,42 @@ const Book = require('./model/book');
 });
  */
 
+/* Book.find({}, (err, books) => {
+    if (err) handleError(err);
+    else console.log({ books });
+});
+ */
+
+// Middleware
+app.use(express.json());
+
+// POST request to /books to create a new book
+app.post('/books', (req, res) => {
+    Book.create({
+        title: req.body.title,
+        author: req.body.author,
+        description: req.body.description,
+        category: req.body.category,
+        purchaseCount: req.body.purchaseCount,
+        imageUrl: req.body.imageUrl,
+        tags: req.body.tags
+    }, (err, newBook) => {
+        if (err) {
+            res.status(500).json({
+                message: err
+            });
+        } else {
+            res.status(200).json({
+                message: "new book created",
+                newBook
+            });
+        }
+    });
+});
+
+// GET request to /books to fetch all books
+// GET request to /books/:id to fetch a single book
+// PUT request to /books/:id to update a single book
+// DELETE request to /books/:id to delete a single book
 
 app.listen(PORT, () => console.log(`app connected on port ${PORT}`));
