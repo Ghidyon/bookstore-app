@@ -2,7 +2,7 @@
 
 A bookstore application where store owner can create, search, update and delete books.
 
-**FEATURES**
+### Features
 Store owner can:
 - Create Books
 - Fetch Books
@@ -13,3 +13,14 @@ Store owner can:
 ### Tech Stack
 
 **Server:** Node, Express, Mongoose, MongoDB
+
+### Folder Structure
+```bash
+├── index.js
+├── README.md
+└── src
+    ├── controllers
+    ├── database
+    ├── models
+    └── routes
+```
