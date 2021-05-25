@@ -32,8 +32,23 @@ exports.createBook = (req, res) => {
 }
 
 exports.fetchBooks = (req, res) => {
-    // fetch all books
-    Book.find({}, (err, books) => {
+    // Search for books with query
+    // if there are queries, use them in the Model.find()
+    let searchCondition = {};
+    if (req.query.title) {
+        searchCondition.title = req.query.title;
+    }
+    if (req.query.author) {
+        searchCondition.author = req.query.author;
+    }
+    if (req.query.category) {
+        searchCondition.category = req.query.category;
+    }
+    if (req.query.purchaseCount) {
+        searchCondition.purchaseCount = req.query.purchaseCount;
+    }
+    // fetch books
+    Book.find(searchCondition, (err, books) => {
         if (err) {
             res.status(500).json({ message: err });
         } else {
