@@ -13,7 +13,7 @@
   "keywords": [],
   "author": "Gideon Akunana <gideonakunana@gmail.com>",
   "license": "ISC",
-  "description": "",
+  "description": "A bookstore application where store owner can create, search, update and delete books",
   "dependencies": {
     "dotenv": "^9.0.2",
     "express": "^4.17.1",

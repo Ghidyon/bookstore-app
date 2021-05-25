@@ -9,15 +9,7 @@ const Book = require('../models/book');
 
 // All request and response functions for book routes
 exports.createBook = (req, res) => {
-    Book.create({
-        title: req.body.title,
-        author: req.body.author,
-        description: req.body.description,
-        category: req.body.category,
-        purchaseCount: req.body.purchaseCount,
-        imageUrl: req.body.imageUrl,
-        tags: req.body.tags
-    }, (err, newBook) => {
+    Book.create({ ...req.body }, (err, newBook) => {
         if (err) {
             res.status(500).json({
                 message: err
@@ -61,7 +53,7 @@ exports.fetchBooks = (req, res) => {
     });
 }
 
-exports.fetchOneBook =  (req, res) => {
+exports.fetchOneBook = (req, res) => {
     // fetch a single book
     Book.findOne({ _id: req.params.id }, (err, book) => {
         if (err) {
