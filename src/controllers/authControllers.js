@@ -59,5 +59,40 @@ exports.registerNewUser = (req, res) => {
                 });
             });
         })
-    })
+    });
+}
+
+exports.loginUser = (req, res) => {
+    // check if user exists
+    User.findOne({ username: req.body.username }, (err, foundUser) => {
+        if (err) return res.status(500).json({ message: err });
+        if (!foundUser) return res.status(401).json({ message: 'incorrect username' });
+
+        // check if password is correct
+        bcrypt.compare(req.body.password, foundUser.password)
+            .then(match => {
+                if (!match) return res.status(401).json({ message: 'incorrect password' });
+
+                // create a token
+                jwt.sign(
+                    {
+                        id: foundUser._id,
+                        firstName: foundUser.firstName,
+                        lastName: foundUser.lastName,
+                    },
+                    privateKey,
+                    {
+                        expiresIn: expiry
+                    },
+                    (err, token) => {
+                        // send a token to the user
+                        if (err) return res.status(500).json({ message: err });
+                        else return res.status(200).json({
+                            message: 'user logged in',
+                            token
+                        });
+                    }
+                );
+            }).catch(err => res.status(500).json({message: err}));
+    });
 }
