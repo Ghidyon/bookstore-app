@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const privateKey = '~no_none';
 const expiry = 3600;
+
 // Request and Response functions
 exports.registerNewUser = (req, res) => {
     // fetch user details from the db

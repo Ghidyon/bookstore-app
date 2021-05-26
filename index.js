@@ -9,7 +9,10 @@ const app = express();
 require('dotenv').config();
 const { PORT } = process.env;
 const Database = require('./src/database/setup');
+
+// Import routes
 const bookRoutes = require('./src/routes/bookRoutes');
+const authRoutes = require('./src/routes/authRoutes');
 
 // Connect to database
 const db = new Database();
@@ -26,6 +29,7 @@ db.connect()
 // Middleware
 app.use(express.json());
 app.use(bookRoutes);
+app.use('/auth', authRoutes); // the first parameter adds a prefix to the routes
 
 
 app.listen(PORT, () => console.log(`app connected on port ${PORT}`));
