@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
+// Import Middleware
+const { authenticateUser } = require('../middlewares/authentication');
+
 // Import book controllers
 const BookController = require('../controllers/bookControllers');
 
@@ -8,7 +11,7 @@ const BookController = require('../controllers/bookControllers');
 router.post('/books', BookController.createBook);
 
 // GET request to /books to fetch all books
-router.get('/books', BookController.fetchBooks);
+router.get('/books', authenticateUser, BookController.fetchBooks);
 
 // GET request to /books/:id to fetch a single book
 router.get('/books/:id', BookController.fetchOneBook);
