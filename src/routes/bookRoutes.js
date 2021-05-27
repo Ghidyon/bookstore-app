@@ -14,7 +14,7 @@ router.post('/books', BookController.createBook);
 router.get('/books', authenticateUser, BookController.fetchBooks);
 
 // GET request to /books/:id to fetch a single book
-router.get('/books/:id', BookController.fetchOneBook);
+router.get('/books/:id', authenticateUser, BookController.fetchOneBook);
 
 // PUT request to /books/:id to update a single book
 router.put('/books/:id', BookController.updateOneBook);
