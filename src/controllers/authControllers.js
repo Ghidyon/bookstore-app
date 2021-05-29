@@ -8,8 +8,9 @@
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const privateKey = '~no_none';
-const expiry = 3600;
+require('dotenv').config();
+const { SECRET } = process.env;
+const expiry = Number(process.env.TOKEN_EXPIRY);
 
 // Request and Response functions
 exports.registerNewUser = (req, res) => {
@@ -48,7 +49,7 @@ exports.registerNewUser = (req, res) => {
                                 username: newUser.username,
                                 role: newUser.role
                             },
-                            privateKey,
+                            SECRET,
                             {
                                 expiresIn: expiry
                             },
@@ -88,7 +89,7 @@ exports.loginUser = (req, res) => {
                         lastName: foundUser.lastName,
                         role: foundUser.role
                     },
-                    privateKey,
+                    SECRET,
                     {
                         expiresIn: expiry
                     },

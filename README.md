@@ -10,6 +10,10 @@ Store owner can:
 - Delete Books
 - Search for books
 
+User can:
+- Fetch Books
+- Fetch a single book
+
 ### Tech Stack
 
 **Server:** Node, Express, Mongoose, MongoDB
@@ -17,15 +21,19 @@ Store owner can:
 ### Folder Structure
 ```bash
 ├── index.js
+├── package.json
+├── package-lock.json
 ├── README.md
 └── src
     ├── controllers
     ├── database
+    ├── middlewares
     ├── models
-    └── routes
+    ├── routes
+    └── seeders
 ```
 
-*TODO*
+<!-- *TODO*
 Adding Authentication
 
 * Register route
@@ -41,3 +49,6 @@ Adding Authentication
     * Send token to user
 
 * Authenticate book routes (GET)
+
+* Role-based authentication 
+  * SEEDING for checking role of a user whether admin, or regular -->

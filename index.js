@@ -26,6 +26,9 @@ db.connect()
         process.exit(1);
     });
 
+// Seeders
+const { seedAdmin } = require('./src/seeders/admin');
+
 // Middleware
 app.use(express.json());
 app.use(bookRoutes);

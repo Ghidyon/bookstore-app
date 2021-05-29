@@ -2,10 +2,12 @@
     TODO
     - Authenticate user to have a token that will be used to allow requests on all book routes
     - Therefore, they must be logged in before they can do anything on the application
+    - Check if a user is an admin, to be able to access some restricted routes.
 */
 
+require('dotenv').config();
 const jwt = require('jsonwebtoken');
-const privateKey = '~no_none';
+const { SECRET } = process.env;
 
 exports.authenticateUser = (req, res, next) => {
     // check if there's an authorization token
@@ -19,7 +21,7 @@ exports.authenticateUser = (req, res, next) => {
     // decode token
     let token = splittedHeader[1];
     // If token is valid, returns user's decoded payload
-    jwt.verify(token, privateKey, (err, decodedToken) => {
+    jwt.verify(token, SECRET, (err, decodedToken) => {
         if (err) return res.status(500).json({ err });
         // check if it's valid
         if (!decodedToken) return res.status(401).json({ message: "invalid authorization token, please login" });
