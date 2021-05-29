@@ -8,7 +8,7 @@ require('dotenv').config();
 const { SECRET } = process.env;
 const expiry = Number(process.env.TOKEN_EXPIRY);
 
-exports.createToken = (user) => {
+exports.createToken = user => {
     try {
         let token = jwt.sign(
             {
@@ -23,6 +23,15 @@ exports.createToken = (user) => {
             }
         );
         return token;        
+    } catch (error) {
+        return null;
+    }
+}
+
+exports.decodeToken = token => {
+    try {
+        let decodedToken = jwt.verify(token, SECRET);
+        return decodedToken;
     } catch (error) {
         return null;
     }

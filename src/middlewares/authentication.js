@@ -5,9 +5,7 @@
     - Check if a user is an admin, to be able to access some restricted routes.
 */
 
-require('dotenv').config();
-const jwt = require('jsonwebtoken');
-const { SECRET } = process.env;
+const { decodeToken } = require('../services/jwtService');
 
 exports.authenticateUser = (req, res, next) => {
     // check if there's an authorization token
@@ -20,17 +18,18 @@ exports.authenticateUser = (req, res, next) => {
     }
     // decode token
     let token = splittedHeader[1];
+    
     // If token is valid, returns user's decoded payload
-    jwt.verify(token, SECRET, (err, decodedToken) => {
-        if (err) return res.status(500).json({ err });
-        // check if it's valid
-        if (!decodedToken) return res.status(401).json({ message: "invalid authorization token, please login" });
+    let decodedToken = decodeToken(token);
 
+    // check if it's valid
+    if (!decodedToken) return res.status(401).json({ message: "user not found" });
+    else {
         // Add user payload to request, so as to make user accessible outside this function
         req.user = decodedToken;
         // allow user to continue with the request
-        next(); // when the conditions in this function is fulfilled, next() calls the next function placed after it.
-    });
+        return next(); // when the conditions in this function is fulfilled, next() calls the next function placed after it.
+    }
 }
 
 exports.checkIfAdmin = (req, res, next) => {
