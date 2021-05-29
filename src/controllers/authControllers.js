@@ -7,10 +7,7 @@
 // Import User Model
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
-const { SECRET } = process.env;
-const expiry = Number(process.env.TOKEN_EXPIRY);
+const { createToken } = require('../services/jwtService');
 
 // Request and Response functions
 exports.registerNewUser = (req, res) => {
@@ -41,28 +38,17 @@ exports.registerNewUser = (req, res) => {
                         if (err) return res.status(500).json({ message: err });
 
                         // create json web token for user
-                        jwt.sign(
-                            {
-                                id: newUser._id,
-                                firstName: newUser.firstName,
-                                lastName: newUser.lastName,
-                                username: newUser.username,
-                                role: newUser.role
-                            },
-                            SECRET,
-                            {
-                                expiresIn: expiry
-                            },
-                            (err, token) => {
-                                if (err) return res.status(500).json({ message: err });
+                        let token = createToken(newUser);
 
-                                // send token to user
-                                return res.status(200).json({
-                                    message: 'user registration successful',
-                                    token
-                                });
-                            }
-                        );
+                        if(!token) {
+                            return res.status(500).json({ message: "an error occurred during authentication, please try again" });
+                        }
+
+                        // send token to user
+                        return res.status(200).json({
+                            message: 'user registration successful',
+                            token
+                        });
                     });
                 });
             });
@@ -82,26 +68,16 @@ exports.loginUser = (req, res) => {
                 if (!match) return res.status(401).json({ message: 'incorrect password' });
 
                 // create a token
-                jwt.sign(
-                    {
-                        id: foundUser._id,
-                        firstName: foundUser.firstName,
-                        lastName: foundUser.lastName,
-                        role: foundUser.role
-                    },
-                    SECRET,
-                    {
-                        expiresIn: expiry
-                    },
-                    (err, token) => {
-                        // send a token to the user
-                        if (err) return res.status(500).json({ message: err });
-                        else return res.status(200).json({
-                            message: 'user logged in',
-                            token
-                        });
-                    }
-                );
+                let token = createToken(foundUser);
+
+                if(!token) {
+                    return res.status(500).json({ message: "an error occurred during authentication, please try again" });
+                }
+
+                return res.status(200).json({
+                    message: 'user logged in',
+                    token
+                });
             }).catch(err => res.status(500).json({message: err}));
     });
 }
