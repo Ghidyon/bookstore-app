@@ -8,7 +8,7 @@ const { authenticateUser } = require('../middlewares/authentication');
 const BookController = require('../controllers/bookControllers');
 
 // POST request to /books to create a new book
-router.post('/books', BookController.createBook);
+router.post('/books', authenticateUser, BookController.createBook);
 
 // GET request to /books to fetch all books
 router.get('/books', authenticateUser, BookController.fetchBooks);
@@ -17,9 +17,9 @@ router.get('/books', authenticateUser, BookController.fetchBooks);
 router.get('/books/:id', authenticateUser, BookController.fetchOneBook);
 
 // PUT request to /books/:id to update a single book
-router.put('/books/:id', BookController.updateOneBook);
+router.put('/books/:id', authenticateUser, BookController.updateOneBook);
 
 // DELETE request to /books/:id to delete a single book
-router.delete('/books/:id', BookController.deleteOneBook);
+router.delete('/books/:id', authenticateUser, BookController.deleteOneBook);
 
 module.exports = router;

@@ -1,3 +1,9 @@
+/* 
+    TODO: Request and Response functions to:
+    - Register New User
+    - Login User
+*/
+
 // Import User Model
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
@@ -39,7 +45,8 @@ exports.registerNewUser = (req, res) => {
                                 id: newUser._id,
                                 firstName: newUser.firstName,
                                 lastName: newUser.lastName,
-                                username: newUser.username
+                                username: newUser.username,
+                                role: newUser.role
                             },
                             privateKey,
                             {
@@ -79,6 +86,7 @@ exports.loginUser = (req, res) => {
                         id: foundUser._id,
                         firstName: foundUser.firstName,
                         lastName: foundUser.lastName,
+                        role: foundUser.role
                     },
                     privateKey,
                     {
